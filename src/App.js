@@ -1,18 +1,20 @@
 import React, { Component } from "react";
+import uuidv4 from "uuid/v4";
 
 class App extends Component {
   state = {
     food_name: "",
     calories: 0,
-    entries: [{ food_name: "Acarajé", calories: 300 }],
+    entries: [{ food_name: "Acarajé", calories: 300, id: uuidv4() }],
     calorie_limit: 1800
   };
 
   logCalories = e => {
     e.preventDefault();
     const { food_name, calories } = this.state;
+    const id = uuidv4();
     this.setState({
-      entries: [...this.state.entries, { food_name, calories }],
+      entries: [...this.state.entries, { id, food_name, calories }],
       food_name: "",
       calories: 0
     });
@@ -28,9 +30,7 @@ class App extends Component {
 
   deleteEntry = entry => {
     console.log(entry);
-    const new_entries = this.state.entries.filter(
-      item => item.food_name !== entry.food_name
-    );
+    const new_entries = this.state.entries.filter(item => item.id !== entry.id);
     this.setState({ entries: new_entries });
   };
 
