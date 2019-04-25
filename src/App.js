@@ -3,7 +3,8 @@ import React, { Component } from "react";
 class App extends Component {
   state = {
     food_name: "",
-    entries: [{ food_name: "Dosa", calories: 300 }],
+    calories: 0,
+    entries: [{ food_name: "Acarajé", calories: 300 }],
     calorie_limit: 1800
   };
 
@@ -11,7 +12,9 @@ class App extends Component {
     e.preventDefault();
     const { food_name, calories } = this.state;
     this.setState({
-      entries: [...this.state.entries, { food_name, calories }]
+      entries: [...this.state.entries, { food_name, calories }],
+      food_name: "",
+      calories: 0
     });
   };
 
