@@ -5,16 +5,25 @@ class App extends Component {
   state = {
     food_name: "",
     calories: 0,
-    entries: [{ food_name: "Acarajé", calories: 300, id: uuidv4() }],
+    entries: [
+      {
+        food_name: "Acarajé",
+        calories: 300,
+        id: uuidv4(),
+        created_at: Date.now()
+      }
+    ],
     calorie_limit: 1800
   };
 
   logCalories = e => {
     e.preventDefault();
     const { food_name, calories } = this.state;
-    const id = uuidv4();
     this.setState({
-      entries: [...this.state.entries, { id, food_name, calories }],
+      entries: [
+        ...this.state.entries,
+        { id: uuidv4(), food_name, calories, created_at: Date.now() }
+      ],
       food_name: "",
       calories: 0
     });
