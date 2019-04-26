@@ -207,15 +207,16 @@ While we have added some entries and it is all stored in our backend, our app is
   
   ```javascript
     getEntries() {
-    let path = "/items/" + this.state.user.attributes.sub;
-    const apiName = "api-name"
-    API.get(apiName, path)
-      .then(response => {
-        this.setState({ entries: response });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      let path = "/items/" + this.state.user.attributes.sub;
+      const apiName = "api-name"
+      API.get(apiName, path)
+        .then(response => {
+          this.setState({ entries: response });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   ```
   We need to call getEntries() as soon as page is loaded but need to wait until we have current user object. So, let's chain getEntries .then of getCurrentUser by updating that function
  
