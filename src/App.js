@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import uuidv4 from "uuid/v4";
 
 class App extends Component {
   state = {
@@ -9,7 +8,6 @@ class App extends Component {
       {
         food_name: "Acarajé",
         calories: 300,
-        id: uuidv4(),
         created_at: Date.now()
       }
     ],
@@ -22,7 +20,7 @@ class App extends Component {
     this.setState({
       entries: [
         ...this.state.entries,
-        { id: uuidv4(), food_name, calories, created_at: Date.now() }
+        { food_name, calories, created_at: Date.now() }
       ],
       food_name: "",
       calories: 0
@@ -39,7 +37,9 @@ class App extends Component {
 
   deleteEntry = entry => {
     console.log(entry);
-    const new_entries = this.state.entries.filter(item => item.id !== entry.id);
+    const new_entries = this.state.entries.filter(
+      item => item.food_name !== entry.food_name
+    );
     this.setState({ entries: new_entries });
   };
 
