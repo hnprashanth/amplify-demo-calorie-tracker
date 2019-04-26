@@ -132,7 +132,7 @@ Create a function which can get currently logged in user and store it in state
 
 ```javascript
   getCurrentUser() {
-    Auth.currentAuthenticatedUser({ bypassCache: true }).then(user => {
+    Auth.currentAuthenticatedUser().then(user => {
       this.setState({
         user
       });
@@ -252,3 +252,40 @@ Update the deleteEntry function perform deltetion through API instead of just on
       });
   };
   ```
+  
+ #### Add Custom Attribute to Cognito
+ 
+ In our app we have "Daily Calorie Limit" set to 1800 calories and we let user to edit this field. Like all our other data, this is not persisted and resets to 1800 on refresh losing edits. Cognito allows us to store such user related information and gives it to us when get current user. Change changeLimit function to update this data to cognito:
+ 
+   ```javascript
+   changeLimit = () => {
+    Auth.updateUserAttributes(this.state.user, {
+      "custom:calorie_limit": this.state.calorie_limit
+    });
+    this.setState({ limit_edit: false });
+  };
+  ```
+  
+ We also need to modify getCurrentUser() function so that this attribute is readily available by disabling cache.
+ 
+ ```javascript
+   getCurrentUser() {
+    Auth.currentAuthenticatedUser({ bypassCache: true }).then(user => {
+      console.log(user);
+      this.setState({
+        user,
+        calorie_limit: user.attributes["custom:calorie_limit"]
+      });
+      this.getEntries();
+    });
+  }
+  ```
+  
+  #### Logout
+  Now that we have added all the functionalities, let's finish by implementing logout
+  
+  ```html
+    <a href="/" onClick={Auth.signOut}>
+      Logout
+    </a>
+```
