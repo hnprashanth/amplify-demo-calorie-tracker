@@ -104,9 +104,9 @@ aws-amplify is the JS library which will provide us with bunch of easy to use fu
 Add following imports to 'src/App.js' at the top after React import statement
 
 ```javascript
-import Amplify from 'aws-amplify';`
-import awsmobile from './aws-exports';
-import { withAuthenticator } from 'aws-amplify-react';
+import Amplify from "aws-amplify";
+import awsmobile from "./aws-exports";
+import { withAuthenticator } from "aws-amplify-react";
 ```
 
 And right below it
@@ -273,7 +273,7 @@ deleteEntry = entry => {
 
 #### Add Custom Attribute to Cognito
 
-In our app we have "Daily Calorie Limit" set to 1800 calories and we let user to edit this field. Like all our other data, this is not persisted and resets to 1800 on refresh losing edits. Cognito allows us to store such user related information and gives it to us when get current user. Change changeLimit function to update this data to cognito:
+In our app we have "Daily Calorie Limit" set to 1800 calories and we let user to edit this field. Like all our other data, this is not persisted and resets to 1800 on refresh losing edits. Cognito allows us to store such user related information and gives it to us when get current user. First goto Cognito, select your user pool, attributes, click "Add Attribute" at the bottom, select type as number, give name as "calorie_limit", increase max-value to 5000 & add. Add changeLimit function to update this data to cognito:
 
 ```javascript
 changeLimit = () => {
@@ -282,6 +282,14 @@ changeLimit = () => {
   });
   this.setState({ limit_edit: false });
 };
+```
+
+Change button accordingly
+
+```html
+<button onClick="{this.changeLimit}">
+  Done
+</button>
 ```
 
 We also need to modify getCurrentUser() function so that this attribute is readily available by disabling cache.
@@ -303,8 +311,14 @@ We also need to modify getCurrentUser() function so that this attribute is readi
 
 Now that we have added all the functionalities, let's finish by implementing logout
 
+```javascript
+signOut = () => {
+  Auth.signOut();
+};
+```
+
 ```html
-<a href="/" onClick="{Auth.signOut}">
+<a href="/" onClick="{this.signOut}">
   Logout
 </a>
 ```
