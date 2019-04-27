@@ -1,0 +1,70 @@
+{
+    "identityPoolName": "caltrack_identitypool_e5e00963",
+    "allowUnauthenticatedIdentities": false,
+    "thirdPartyAuth": false,
+    "lambdaLogPolicy": "caltrack_lambda_log_policy",
+    "openIdLambdaRoleName": "caltrack_openid_lambda_role",
+    "openIdRolePolicy": "caltrack_openid_pass_role_policy",
+    "openIdLambdaIAMPolicy": "caltrack_openid_lambda_iam_policy",
+    "openIdLogPolicy": "caltrack_openid_lambda_log_policy",
+    "userPoolName": "caltrack_userpool_e5e00963",
+    "autoVerifiedAttributes": [
+        "email"
+    ],
+    "mfaConfiguration": "OFF",
+    "mfaTypes": [
+        "SMS Text Message"
+    ],
+    "roleName": "caltrack_sns-role",
+    "roleExternalId": "caltrack_role_external_id",
+    "policyName": "caltrack-sns-policy",
+    "smsAuthenticationMessage": "Your authentication code is {####}",
+    "smsVerificationMessage": "Your verification code is {####}",
+    "emailVerificationSubject": "Your verification code",
+    "emailVerificationMessage": "Your verification code is {####}",
+    "defaultPasswordPolicy": false,
+    "passwordPolicyMinLength": 8,
+    "passwordPolicyCharacters": [
+        "Requires Lowercase",
+        "Requires Uppercase",
+        "Requires Numbers",
+        "Requires Symbols"
+    ],
+    "requiredAttributes": [
+        "email"
+    ],
+    "userpoolClientName": "caltrack_app_client",
+    "userpoolClientGenerateSecret": true,
+    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientReadAttributes": [
+        "email"
+    ],
+    "mfaLambdaRole": "caltrack_totp_lambda_role",
+    "mfaLambdaLogPolicy": "caltrack_totp_lambda_log_policy",
+    "mfaPassRolePolicy": "caltrack_totp_pass_role_policy",
+    "mfaLambdaIAMPolicy": "caltrack_totp_lambda_iam_policy",
+    "userpoolClientLambdaRole": "caltrack_userpoolclient_lambda_role",
+    "userpoolClientLogPolicy": "caltrack_userpoolclient_lambda_log_policy",
+    "userpoolClientLambdaPolicy": "caltrack_userpoolclient_lambda_iam_policy",
+    "userpoolClientSetAttributes": false,
+    "authSelections": "identityPoolAndUserPool",
+    "resourceName": "cognito445d3e87",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    },
+    "unauthRoleArn": {
+        "Fn::GetAtt": [
+            "UnauthRole",
+            "Arn"
+        ]
+    }
+}

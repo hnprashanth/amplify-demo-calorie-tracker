@@ -1,30 +1,77 @@
 import React, { Component } from "react";
+import Amplify, { Auth, API } from "aws-amplify";
+import awsmobile from "./aws-exports";
+import { withAuthenticator } from "aws-amplify-react";
+
+Amplify.configure(awsmobile);
 
 class App extends Component {
   state = {
     food_name: "",
     calories: 0,
-    entries: [
-      {
-        food_name: "Acarajé",
-        calories: 300,
-        created_at: Date.now()
-      }
-    ],
+    entries: [],
     calorie_limit: 1800
   };
+
+  componentDidMount() {
+    this.getCurrentUser();
+  }
+
+  getCurrentUser() {
+    Auth.currentAuthenticatedUser({ bypassCache: true }).then(user => {
+      console.log(user);
+      this.setState({
+        user,
+        calorie_limit: user.attributes["custom:calorie_limit"]
+      });
+      this.getEntries();
+    });
+  }
+
+  getEntries() {
+    let path = "/items/" + this.state.user.attributes.sub;
+    const apiName = "caltrack";
+    API.get(apiName, path)
+      .then(response => {
+        this.setState({ entries: response });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   logCalories = e => {
     e.preventDefault();
     const { food_name, calories } = this.state;
-    this.setState({
-      entries: [
-        ...this.state.entries,
-        { food_name, calories, created_at: Date.now() }
-      ],
-      food_name: "",
-      calories: 0
-    });
+    let apiName = "caltrack"; //replace with your API name copied from API Gateway page
+    let path = "/items";
+    let data = {
+      body: {
+        user_id: this.state.user.attributes.sub,
+        food_name,
+        calories,
+        created_at: Date.now()
+      }
+    };
+    API.post(apiName, path, data)
+      .then(response => {
+        this.setState({
+          entries: [
+            ...this.state.entries,
+            {
+              id: this.state.user.attributes.sub,
+              food_name,
+              calories,
+              created_at: Date.now()
+            }
+          ],
+          food_name: "",
+          calories: 0
+        });
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
   };
 
   caloriesLeft = () => {
@@ -36,11 +83,30 @@ class App extends Component {
   };
 
   deleteEntry = entry => {
-    console.log(entry);
-    const new_entries = this.state.entries.filter(
-      item => item.food_name !== entry.food_name
-    );
-    this.setState({ entries: new_entries });
+    let path = `/items/object/${entry.user_id}/${entry.created_at}`;
+    const apiName = "caltrack";
+    API.del(apiName, path)
+      .then(response => {
+        console.log(response);
+        const new_entries = this.state.entries.filter(
+          item => item.food_name !== entry.food_name
+        );
+        this.setState({ entries: new_entries });
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  };
+
+  changeLimit = () => {
+    Auth.updateUserAttributes(this.state.user, {
+      "custom:calorie_limit": this.state.calorie_limit
+    });
+    this.setState({ limit_edit: false });
+  };
+
+  signOut = () => {
+    Auth.signOut();
   };
 
   render() {
@@ -53,7 +119,9 @@ class App extends Component {
             </a>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
               <li>
-                <a href="/">Logout</a>
+                <a href="/" onClick={this.signOut}>
+                  Logout
+                </a>
               </li>
             </ul>
           </div>
@@ -139,11 +207,7 @@ class App extends Component {
                         this.setState({ calorie_limit: e.target.value })
                       }
                     />
-                    <button
-                      onClick={() => this.setState({ limit_edit: false })}
-                    >
-                      Done
-                    </button>
+                    <button onClick={this.changeLimit}>Done</button>
                   </div>
                 </li>
               )}
@@ -155,4 +219,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withAuthenticator(App);

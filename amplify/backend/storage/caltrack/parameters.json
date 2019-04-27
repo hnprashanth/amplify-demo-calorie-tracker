@@ -1,0 +1,7 @@
+{
+    "tableName": "caltrack",
+    "partitionKeyName": "user_id",
+    "partitionKeyType": "S",
+    "sortKeyName": "created_at",
+    "sortKeyType": "N"
+}

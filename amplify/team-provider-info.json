@@ -1,0 +1,19 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "caltrack-20190427103526-authRole",
+            "UnauthRoleArn": "arn:aws:iam::003780799969:role/caltrack-20190427103526-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::003780799969:role/caltrack-20190427103526-authRole",
+            "Region": "ap-south-1",
+            "DeploymentBucketName": "caltrack-20190427103526-deployment",
+            "UnauthRoleName": "caltrack-20190427103526-unauthRole",
+            "StackName": "caltrack-20190427103526",
+            "StackId": "arn:aws:cloudformation:ap-south-1:003780799969:stack/caltrack-20190427103526/12668b30-68aa-11e9-a570-06021305bac0"
+        },
+        "categories": {
+            "auth": {
+                "cognito445d3e87": {}
+            }
+        }
+    }
+}

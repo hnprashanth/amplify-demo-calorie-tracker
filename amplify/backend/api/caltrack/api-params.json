@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/items",
+            "lambdaFunction": "caltrack",
+            "privacy": {
+                "private": true,
+                "auth": "rw"
+            }
+        }
+    ],
+    "resourceName": "caltrack",
+    "apiName": "caltrack",
+    "functionArns": [
+        {
+            "lambdaFunction": "caltrack"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "caltrack-20190427103526-authRole",
+        "unAuthRoleName": "caltrack-20190427103526-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "caltrack",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
